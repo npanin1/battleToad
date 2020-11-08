@@ -1,22 +1,31 @@
-import org.junit.Assert;
 import org.junit.Test;
-
-import java.util.Arrays;
 
 public class StackTest {
     @Test
     public void test0() {
-        Task2_1_Stack d = new Task2_1_Stack();
-        d.Push(7);
-        d.Push(6);
-        d.Push("sccvfdvfd");
-        int res = d.Count();
-        assert(res == 3);
-        d.Pop();
-        d.Pop();
-        d.Push(244);
-        res = d.Count();
-        assert(res == 2);
+        Stack<Integer> arr = new Stack<>();
+        arr.push(69);
+        arr.push(34);
+        arr.pop();
+        assert(arr.count() == 1);
+        for(int i = 0; i < 100; i++){
+            arr.push(i);
+        }
+        assert(arr.count() == 101);
+        assert(arr.pop() == 99);
+    }
 
+    @Test
+    public void test1() {
+        Stack<String> arr = new Stack<>();
+        arr.push("sneg");
+        arr.push("idet");
+        arr.pop();
+        assert(arr.count() == 1);
+        for(int i = 0; i < 100; i++){
+            arr.push(Integer.toString(i));
+        }
+        assert(arr.count() == 101);
+        assert(arr.pop().equals("99"));
     }
 }
