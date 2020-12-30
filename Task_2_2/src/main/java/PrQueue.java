@@ -3,11 +3,15 @@ import java.util.function.Consumer;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-public class Pr_Queue<Key extends Comparable<Key>, Val> implements Iterable<Val> {
+public class PrQueue<Key extends Comparable<Key>, Val> implements Iterable<Val> {
     private int modCount = 0;
     private Node<Key, Val>[] arr;
     private int sz, cur;
 
+    /***
+     * @param <Key> The key in the pair
+     * @param <Val> The value
+     */
     private static class Node<Key extends Comparable<Key>, Val> {
         public final Key key;
         public final Val value;
@@ -20,12 +24,16 @@ public class Pr_Queue<Key extends Comparable<Key>, Val> implements Iterable<Val>
     }
 
     @SuppressWarnings("unchecked")
-    Pr_Queue() {
+    PrQueue() {
         arr =  new Node[10];
         cur = 0;
         sz = 10;
     }
 
+    /***
+     * Extracts an element with the minimum key.
+     * @return returns the extracted value
+     */
     public Val extract_Minimum() {
         modCount++;
         if(cur == 0)
@@ -36,6 +44,11 @@ public class Pr_Queue<Key extends Comparable<Key>, Val> implements Iterable<Val>
         return min.value;
     }
 
+    /***
+     * Inserts a new element in the queue
+     * @param K its key
+     * @param V its value
+     */
     public void insert(Key K, Val V) {
         modCount++;
         if(cur == sz){
@@ -48,12 +61,21 @@ public class Pr_Queue<Key extends Comparable<Key>, Val> implements Iterable<Val>
         siftUp(cur - 1);
     }
 
+    /***
+     * Method to swap to elements in the array
+     * @param a first element index
+     * @param b second one
+     */
     private void swap(int a, int b){
         Node<Key, Val> buf = arr[a];
         arr[a] = arr[b];
         arr[b] = buf;
     }
 
+    /***
+     * standard sifting down algorithm to restore the heap after extracting an element
+     * @param nod element index to inspect
+     */
     private void siftDown(int nod){
         int min = nod;
         int l = nod * 2 + 1;
@@ -70,6 +92,10 @@ public class Pr_Queue<Key extends Comparable<Key>, Val> implements Iterable<Val>
         }
     }
 
+    /***
+     * standard sifting up algorithm to restore the heap after inserting an element
+     * @param idx index
+     */
     private void siftUp(int idx) {
         int par = (idx - 1) / 2;
         while (arr[idx].key.compareTo(arr[par].key) < 0 && idx > 0) {
@@ -176,7 +202,7 @@ public class Pr_Queue<Key extends Comparable<Key>, Val> implements Iterable<Val>
 
         @Override
         public int characteristics() {
-            return IMMUTABLE | SIZED | SUBSIZED;
+            return spliterator().characteristics();
         }
     }
 }

@@ -9,7 +9,7 @@ import static org.junit.Assert.assertEquals;
 public class Queue_Test {
     @Test
     public void test(){
-        Pr_Queue<Integer, Integer> queue = new Pr_Queue<>();
+        PrQueue<Integer, Integer> queue = new PrQueue<>();
         queue.insert(2, 11);
         queue.insert(4, 13);
         queue.insert(3, 12);
@@ -26,7 +26,7 @@ public class Queue_Test {
     }
     @Test
     public void test1(){
-        Pr_Queue<Integer, String> queue = new Pr_Queue<>();
+        PrQueue<Integer, String> queue = new PrQueue<>();
         queue.insert(1, "11");
         queue.insert(3, "13");
         queue.insert(2, "12");
@@ -43,7 +43,7 @@ public class Queue_Test {
     }
     @Test
     public void test2(){
-        Pr_Queue<Integer, Integer> queue = new Pr_Queue<>();
+        PrQueue<Integer, Integer> queue = new PrQueue<>();
         queue.insert(20, 1);
         queue.insert(15, 2);
         queue.insert(10, 3);
