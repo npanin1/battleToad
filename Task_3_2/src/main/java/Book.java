@@ -1,6 +1,7 @@
 public class Book {
     private int currSem;
-    private final Page[] pages = new Page[20];
+    private static final int PAGES = 100;
+    private final Page[] pages = new Page[PAGES];
     private final String name;
     private final int group;
     private int qWork;
@@ -13,10 +14,17 @@ public class Book {
      * @param currSem semester
      */
     public Book(String name, int group, int currSem) {
+        if(name == null)
+            throw new NullPointerException("No name");
+        if(!(group < 100000 && group > 9999))
+            throw new NullPointerException("Invalid group number");
+        if(currSem > PAGES)
+            throw new NullPointerException("Invalid semester number");
+
         this.name = name;
         this.currSem = currSem;
         this.group = group;
-        for (int i = 1; i < 20; i++) {
+        for (int i = 1; i < PAGES; i++) {
             this.pages[i] = new Page();
             this.pages[i].sem = i;
         }
@@ -29,12 +37,22 @@ public class Book {
      * @param mark mark 0 or 1 - got credit or not, 2-5 if mark is differentiated
      */
     public void insertSubj(String subj, int sem, int mark) {
+        if(subj == null)
+            throw new NullPointerException("No name");
+        if(sem > PAGES)
+            throw new NullPointerException("Invalid semester number");
+        if(!(mark > -1 && mark < 6))
+            throw new NullPointerException("Invalid mark");
+
         if(mark == 3 || mark == 0)
             isRed = false;
         this.pages[sem].add(subj, mark);
     }
 
     public void insertQualifWorkMark(int mark){
+        if(!(mark > -1 && mark < 6))
+            throw new NullPointerException("Invalid mark");
+
         if(mark != 5)
             isRed = false;
         qWork = mark;
@@ -46,7 +64,7 @@ public class Book {
     public double average() {
         double sum = 0;
         int count = 0;
-        for(int semes = 1; semes < 20; semes++){
+        for(int semes = 1; semes < PAGES; semes++){
             for(int i = 0; i < pages[semes].cnt; i++){
                 if(pages[semes].marks[i].mark >= 2){
                     sum += pages[semes].marks[i].mark;
@@ -54,6 +72,8 @@ public class Book {
                 }
             }
         }
+        if(count == 0)
+            return -1;
         return sum / count;
     }
 
@@ -94,4 +114,33 @@ public class Book {
     public int getqWork() {
         return qWork;
     }
+
+
+    private class Page{
+        public int sem;
+        private static final int LINES = 50;
+        public final Line[] marks = new Line[LINES];
+        int cnt = 0;
+        public Page(){
+            for(int i = 0; i < LINES; i++){
+                marks[i] = new Line();
+            }
+        }
+        public void add(String dist, int mark){
+            if(dist == null)
+                throw new NullPointerException("No name");
+            if(!(mark > -1 && mark < 6))
+                throw new NullPointerException("Invalid mark");
+
+            this.marks[cnt].mark = mark;
+            this.marks[cnt].subj = dist;
+            cnt++;
+        }
+    }
+
+    public class Line{
+        public String subj;
+        public int mark;
+    }
+
 }
